@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,400;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
-    <title>Document</title>
+    <title>Employee Filter</title>
 </head>
 <body>
     <%-include('../partials/navbar.ejs')%>
@@ -57,6 +57,7 @@
                 <table id="example" class="table table-striped table-bordered">
                     <thead>
                         <tr>
+                            <th>NO</th>
                             <th>Product ID</th>
                             <th>Employee Number</th>
                             <th>Date</th>
@@ -67,6 +68,7 @@
                     <tbody>
                       <%data.forEach((x)=>{%>
                         <tr>
+                            <td></td>
                             <td><%=x.productId%></td>
                             <td><%=x.empNum%></td>
                             <td><%=x.showDate%></td>
@@ -84,10 +86,27 @@
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
 <script>
+
     $(document).ready(function () {
-    $('#example').DataTable();
+        let t = $('#example').DataTable({
+            columnDefs: [
+                {
+                    searchable: false,
+                    orderable: false,
+                    targets: 0,
+                },
+            ],
+            order: [[ 4, 'asc' ], [ 3, 'asc' ]],
+        });
+        t.on('order.dt search.dt', function () {
+            let i = 1;
     
-});   
+            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+
+});
 </script>     
 </body>
 </html>

@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,400;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
-    <title>Document</title>
+    <title>Date Filter</title>
 </head>
 <body>
     <%-include('../partials/navbar.ejs')%>
@@ -21,22 +21,22 @@
     <p class="h1 text-center">Date Filter</p>
     <div class="container">
         <form action="/dateFilter" method="post">
-            <div class="row text-right">
-                <div class="col-2 offset-1">
+            <div class="row text-md-right text-center">
+                <div class="col-md-2 col-12 offset-1">
                     <p>Start Date</p>
                 </div>
-                <div class="col-2">
+                <div class="col-md-2 col-12">
                     <input type="date" name="start">
                 </div>
-                <div class="col-2">
+                <div class="col-md-2 col-12">
                     <p>End Date</p>
                 </div>
-                <div class="col-2">
+                <div class="col-md-2 col-12">
                     <input type="date" name="end">
                 </div>            
             </div>
             <div class="row text-center">
-                <div class="col-12">
+                <div class="col-12 mt-3">
                     <button type="submit" class="btn btn-success">Submit</button>
                 </div>
             </div>
@@ -49,6 +49,7 @@
                 <table id="example" class="table table-striped table-bordered">
                     <thead>
                         <tr>
+                            <th>NO</th>
                             <th>Product ID</th>
                             <th>Employee Number</th>
                             <th>Date</th>
@@ -57,8 +58,10 @@
                         </tr>
                     </thead>
                     <tbody>
+                      
                       <%data.forEach((x)=>{%>
                         <tr>
+                            <td></td>
                             <td><%=x.productId%></td>
                             <td><%=x.empNum%></td>
                             <td><%=x.showDate%></td>
@@ -76,11 +79,27 @@
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap4.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#example').DataTable( {
-        order: [[ 2, 'asc' ], [ 3, 'asc' ]]
-    } );
-} );
+
+    $(document).ready(function () {
+        let t = $('#example').DataTable({
+            columnDefs: [
+                {
+                    searchable: false,
+                    orderable: false,
+                    targets: 0,
+                },
+            ],
+            order: [[ 4, 'asc' ], [ 3, 'asc' ]],
+        });
+        t.on('order.dt search.dt', function () {
+            let i = 1;
+    
+            t.cells(null, 0, { search: 'applied', order: 'applied' }).every(function (cell) {
+                this.data(i++);
+            });
+        }).draw();
+
+});
 </script>     
 </body>
 </html>

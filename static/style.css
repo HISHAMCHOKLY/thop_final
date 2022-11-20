@@ -1,4 +1,10 @@
 body{
     background-color: #F5F5F5 ;
     font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+}
+input{
+    border-radius: 5px;
+    border-style: solid;
+     border-width: 1px;
 }
