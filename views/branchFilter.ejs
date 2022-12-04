@@ -13,36 +13,40 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;1,100;1,200;1,400;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
-    <title>Employee Filter</title>
+    <title>Branch Filter</title>
 </head>
 <body>
     <%-include('../partials/navbar.ejs')%>
 
     <div class="row">
         <div class="col-2">
-            <%-include('../partials/sidebar_empFilter.ejs')%>
+            <%-include('../partials/sidebar_branchFilter.ejs')%>
+
         </div>
         <div class="col-10">
             <div class="container">
-                <p class="h1 text-center">Employee Filter</p>
-                <form action="/empFilter" method="post">
+                <p class="h1 text-center">Branch Filter</p>
+                <form action="/branchFilter" method="post">
                     <div class="row text-right">
                         <div class="col-2 offset-3">
-                            <p>Employee Number:</p>
+                            <p>Branch Code :</p>
                         </div>
                         <div class="col-2">
-                            <input type="text" name="empNum" value="<%=empNum%>">
+                            <select name="branch" id="branches"  required >
+                                <option value="<%=branch%>"><%=branch%></option>   
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="D">E</option>
+                                <option value="D">F</option>
+                                <option value="D">G</option>
+                                <option value="D">H</option>
+                                <option value="D">I</option>
+                                <option value="D">J</option>
+                              </select>
                         </div>
                     </div>
-                    <!-- if branch and Employee filter wants in same page -->
-                    <!-- <div class="row text-right">
-                        <div class="col-2 offset-3">
-                            <p>Branch code :</p>
-                        </div>
-                        <div class="col-2">
-                            <input type="text" name="branch" value="">
-                        </div>
-                    </div> -->
                     <div class="row text-right">
                         <div class="col-2 offset-1">
                             <p>Start Date</p>

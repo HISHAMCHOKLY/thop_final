@@ -1,5 +1,5 @@
 const express = require('express')
-const { getAddItem, getHome, getInventory, getHistory, addItem, clearAllData, getMonthPage, monthFilter, monthPage, getDateFilter, dateFilter, getEmpFilter, empFilter } = require('../controllers/home')
+const { getAddItem, getHome, getInventory, getHistory, addItem, clearAllData, getMonthPage, monthFilter, monthPage, getDateFilter, dateFilter, getEmpFilter, empFilter, getBranchFilter, branchFilter, deleteHistory } = require('../controllers/home')
 const { getLogin, login, logout, getRegister, register } = require('../controllers/user')
 const { isLoggedin } = require('../middlewares/user')
 const router=express.Router()
@@ -39,8 +39,16 @@ router
     .post(empFilter)    
 
 router
+    .route('/branchFilter')
+    .get(getBranchFilter)
+    .post(branchFilter)    
+router
     .route('/history')
     .get(isLoggedin,getHistory)   
+
+router
+    .route('/history/delete/:id')
+    .get(deleteHistory)    
 router
     .route('/clear')
     .get(isLoggedin,clearAllData)    

@@ -2,9 +2,25 @@ body{
     background-color: #F5F5F5 ;
     font-family: 'Montserrat', sans-serif;
     overflow-x: hidden;
+    padding-top: 56px;
 }
 input{
     border-radius: 5px;
     border-style: solid;
      border-width: 1px;
+}
+select{
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    width: 200px;
+    height: 30px;
+}
+.sidebar{
+    position: fixed;
+    width: 16.6%;
+    background-color: #EAEAEB;
+    height: 100vh;
+    padding-left: 20px;
+    padding-right: 20px;
 }

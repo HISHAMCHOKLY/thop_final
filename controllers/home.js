@@ -8,50 +8,71 @@ exports.getAddItem=(req,res)=>{
     res.render('addItem')
 }
 exports.addItem=async(req,res)=>{
-    let {productid,empNum}=req.body
-    let offset=+5.5 //india time zone code this code get from (https://timezonedb.com/time-zones)
-    var date = new Date();
-    var utc=date.getTime()+(date.getTimezoneOffset()*60000)
-    var nd=new Date(utc+(3600000*offset))
-    let today=nd.toLocaleString().split(',')
-    var current_date = new Date().toISOString().slice(0, 10);
-    var current_time = today[1]
-    await History.create({id:Date.now(),productId:productid,empNum:empNum,showDate:current_date,showTime:current_time})
+    let {productid,empNum,branch}=req.body
+    var current = new Date();
+    let currentDate = new Date().toJSON().slice(0, 10);
+	var current_time = current.toLocaleTimeString();
+    await History.create({id:Date.now(),productId:productid,empNum:empNum,branch:branch,date:currentDate,time:current_time})
     res.redirect('/addItem')
 }
 
 exports.getDateFilter=async(req,res)=>{
     let data=[]
-    res.render('dateFilter',{data})
+    let start,end=''
+    res.render('dateFilter',{data,start,end})
 
 }
 exports.dateFilter=async(req,res)=>{
     let {start,end}=req.body
     let data=await History.find({ //query today up to tonight
-        showDate: {
+        date: {
             $gte: start, 
             $lte: end
         }
     })
-    res.render('dateFilter',{data})
+    data.reverse()
+    res.render('dateFilter',{data,start,end})
 }
 
 exports.getEmpFilter=async(req,res)=>{
     let data=[]
-    res.render('empFilter',{data})
+    let start,end,empNum=''
+    res.render('empFilter',{data,start,end,empNum})
 }
 exports.empFilter=async(req,res)=>{
     let {empNum,start,end}=req.body
-    let data=await History.find({empNum:empNum,showDate: {
+    let data=await History.find({empNum:empNum,date: {
         $gte: start, 
         $lte: end
     }})
-    res.render('empFilter',{data})
+    data.reverse()
+    res.render('empFilter',{data,start,end,empNum})
+}
+exports.getBranchFilter=async(req,res)=>{
+    let data=[]
+    let start,end,branch=''
+    res.render('branchFilter',{data,branch,start,end})
+}
+
+exports.branchFilter=async(req,res)=>{
+    let {branch,start,end}=req.body
+    let data=await History.find({branch:branch,date: {
+        $gte: start, 
+        $lte: end
+    }})
+    data.reverse()
+    res.render('branchFilter',{data,start,end,branch})
 }
 exports.getHistory=async(req,res)=>{
     let history=await History.find()
     history.reverse()
     res.render('history',{history})
+}
+
+exports.deleteHistory=async(req,res)=>{
+    let id=req.params.id
+    await History.deleteOne({id:id})
+    res.redirect('/history')
 }
 
 
